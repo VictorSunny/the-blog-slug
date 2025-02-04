@@ -56,7 +56,6 @@ I am highly proficient in backend/logical web/app developement using Python and 
 ![Screenshot (71)](https://github.com/user-attachments/assets/ece1848c-eeb4-4d4e-95b7-2b658d0a77e1)
 ![Screenshot (70)](https://github.com/user-attachments/assets/fe091d63-d227-4cca-8d8c-4460b0d31ac8)
 ![Screenshot (69)](https://github.com/user-attachments/assets/d3b78615-dfff-4ef2-826c-419e4e56d7c0)
-![Screenshot (82)](https://github.com/user-attachments/assets/2ca807f2-4c26-43a3-9713-9630b51d56e4)
 ![Screenshot (80)](https://github.com/user-attachments/assets/19d30e68-1f4b-419c-8e59-71afa66e9271)
 
 
