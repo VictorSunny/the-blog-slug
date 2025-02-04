@@ -34,7 +34,7 @@ To run this project, you will need to add the following environment variables to
 
 - [Github@victorsunny](https://www.github.com/victorsunny/)
 
-- [LinkedIn@victorsunny](https://www.linkedin.com/victor-sunny-6b06ba220/)
+- [LinkedIn@victorsunny](https://www.linkedin.com/in/victor-sunny-6b06ba220)
 
 ## 🚀 About Me
 Hello there, Victor here.
