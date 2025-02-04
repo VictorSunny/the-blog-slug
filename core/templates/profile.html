@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="py-30 w-full bg-amber-100 justify-center">
+        <strong class="ml-6 flex w-full text-5xl font-mono">
+            Hello, {{request.user.first_name}}.
+        </strong>
+    </div>
+    <div class="space-y-6 px-5">
+        {% if blogs %}
+        <div class="mb-2 mt-2">
+            <a href="{% url 'core:createblog' %}"><button class="m-auto rounded-2xl bg-amber-100 p-10 border-2"> CREATE </button></a>
+        </div>
+        <div class="text-white bg-amber-950 text-5xl py-6 block text-center font-mono rounded-bl-3xl rounded-tr-3xl"> Your Blogs </div>
+
+        {% for blog in blogs %}
+        <a href="{% url 'core:blog' blog.id %}" class="p-4">
+                <div class="border-2 bg-red-300">
+                    <div class="m-5">
+                        <div class="2/5"> {{ blog.headline }} </div><br>
+                        by: {{ blog.author.username }}
+                        <div class="size-min w-full">Category: {{ blog.category }} </div>
+                    </div>
+                </div>
+        </a>
+        {% endfor %}
+        {% else %}
+        <div class="text-5xl text-white bg-yellow-600 justify-center rounded-2xl p-4 "> It appears empty here </div>
+            <div class="size-lvh">
+                <a href="{% url 'core:createblog' %}"><button class="m-auto rounded-2xl bg-amber-100 p-10 border-4"> CREATE </button></a>
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+
+{% endblock %}

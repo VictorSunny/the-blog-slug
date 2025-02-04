@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="py-30 w-full bg-amber-200 justify-between flow-root">
+            <div class="text-black text-5xl py-6 block font-mono float-left">
+                <div class="align-text-bottom mx-5">{{user.username}}</div>
+            </div>
+            <div class="w-1/2 float-right text-right py-6 mr-12 text-2xl font-sans text-black">send {{user.username}} a message<br>
+                <a href="{% url 'messagesapp:send' user.id %}">
+                    <button class="bg-blue-600 text-white px-6 py-4 mt-2 border-2 border-black rounded-2xl"> chat </button>
+                </a>
+            </div>
+        </strong>
+    </div>
+    <div class="space-y-6 px-5">
+        {% if blogs %}
+        <div class="text-white bg-amber-950 text-5xl py-6 text-center font-bold border-2 border-black"> Blogs by {{user.username}} </div>
+            {% for blog in blogs %}
+            <a href="{% url 'core:blog' blog.id %}" class="p-2">
+                    <div class="border-2 bg-red-300">
+                        <div class="m-5">
+                            <div class="2/5"> {{ blog.headline }} </div><br>
+                            by: {{ blog.author.username }}
+                            <div class="size-min w-full">Category: {{ blog.category }} </div>
+                        </div>
+                    </div>
+            </a>
+            {% endfor %}
+            {% else %}
+            <div class="text-5xl text-white bg-yellow-600 justify-center rounded-2xl p-4 "> It appears empty here </div>
+
+        {% endif %}
+    </div>
+
+{% endblock %}

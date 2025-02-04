@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for message in conversation.messages.all %}
+    <div class="m-2 flow-root">
+        {% if message.sender == request.user %} 
+            <div class=" bg-amber-400 p-4 w-1/2 float-right rounded-tr-2xl rounded-bl-2xl"> 
+                <strong>{{ message.sender }}</strong> <h6 class="font-serif">sent at- {{ message.time_sent }}</h6>
+                <div class="text-2xl mt-2 rounded-2xl">
+                {{message.text}}
+                </div>
+            </div>
+        {% else %}
+            <div class="bg-yellow-200 p-4 w-1/2 float-left rounded-tl-2xl rounded-br-2xl">
+                <strong>{{ message.sender }}</strong> <h6>sent at- {{ message.time_sent }}</h6>
+                <div class="text-2xl mt-2 rounded-2xl">
+                {{message.text}} 
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <form method="post" action="." class="p-6">
+        {% csrf_token %}
+        <div class="bg-amber-800 rounded-2xl overflow-clip">
+            {{ form.text }}
+        </div>
+        <button class="bg-blue-600 text-white rounded-2xl p-6 mt-4 mb-4"> send </button>
+    </form>
+
+
+{% endblock %}

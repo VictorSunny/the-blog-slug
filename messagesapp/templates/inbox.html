@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="space-y-10 mt-2 mb-2 mb-60">
+    {% for chat in conversations %}
+        <div class="bg-red-300 p-2 rounded-2xl m-1 flex border-2 border-white">
+            {% for member in chat.slugs.all %}
+                {% if member.username != request.user.username %}
+                <a class="hover:border-b-orange-400 p-4 h-full w-full float-none" href="{% url 'messagesapp:send' member.id %}">
+                    <div>
+                        <div class="float-start font-serif text-3xl"><h6 class="">slug</h6> {{member.username}}</div>
+                        <div class="p-2 float-end font-serif">last text at--    {{chat.date_modified}}</div>
+                    </div>
+                </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

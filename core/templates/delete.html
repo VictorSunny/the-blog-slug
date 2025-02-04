@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="bg-orange-200 justify-center  w-3/4 m-auto py-30 flex">
+        <div class="grid-rows-2 justify-center">
+            <div><header> Are You Sure You Want To Delete? </header></div>
+            <div class="flex py-4 justify-center">
+                <form method="post">
+                {% csrf_token %}
+                <a href="{% url 'core:delete' blog.id %}"><button class="bg-red-800 p-10 text-white rounded-2xl"> Yes </button></a>
+                <a href="{% url 'core:profile' %}"><button class="bg-blue-800 p-10 text-white rounded-2xl"> No </button></a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
