@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %} CREATE BLOG {% endblock %}
+{% block page_div %} Create Your Article {% endblock %}
+{% block content %}
+    <div class="w-full p-4 flex ">
+        <form method="post" class="lg:w-5/6 mx-auto text-xs lg:text-lg mt-auto p-4 font-serif border border-black bg-orange-200 lg:rounded-lg rounded-sm w-full space-y-2">
+            {% csrf_token %}
+            <div class="justify-between flex">
+                <label class="w-2/8">Headline: <hr> </label>
+                <div class="w-6/8">{{ form.headline }}</div>
+            </div>
+            <div class="justify-between flex">
+                <label class="w-2/8">Category: <hr> </label>
+                <div class="w-6/8">{{ form.category }}</div>
+            </div>
+            <div class="grid-cols-8 justify-between flex">
+                <label class="w-2/8">Source: <hr>  </label>
+                <div class="w-6/8">{{ form.source }}</div>
+            </div>
+            <div>
+                <label class="w-2/8">Article Body: </label>
+                <div class="flex w-full">{{ form.body }}</div>
+            </div>
+            {% if form.errors or form.non_field_errors %}
+            <div class="p-4">
+                <div class="bg-red-700 p-1 border-white text-sm lg:text-xl rounded-sm lg:rounded-lg text-white">
+                    <ul>
+                    {% for field in form%}
+                        <li>
+                            {{ field.errors }}
+                        </li>
+                    {% endfor %}
+                    {{ form.non_field_errors }}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        <button class="lg:rounded-lg rounded-sm border border-black text-sm lg:text-xl p-2 ml-4 bg-yellow-600 hover:bg-yellow-400 text-white" method="post"> SUBMIT </button>
+        </form>
+    </div>
+{% endblock %}

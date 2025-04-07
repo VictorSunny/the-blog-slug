@@ -1,20 +1,77 @@
 {% extends 'base.html' %}
-
+{% block title %} INBOX {% endblock %}
+{% block page_div %} {{ inbox_type | title }} Messages  {% endblock %}
 {% block content %}
-    <div class="space-y-10 mt-2 mb-2 mb-60">
-    {% for chat in conversations %}
-        <div class="bg-red-300 p-2 rounded-2xl m-1 flex border-2 border-white">
+    <div class="space-y-10 px-4 py-2">
+        <div class="py-2 text-right font-serif">
+            <a href="{% url 'messagesapp:inbox' inbox_toggle %}" class="p-2 bg-orange-200 border-2 hover:border-orange-400 rounded-sm lg:rounded-lg">
+                see {{ inbox_toggle }} messages
+            </a>
+       </div>
+    {% if conversations %}
+        <div class="mx-2 py-4 contain-content space-y-2">
+        {% for chat in conversations %}
             {% for member in chat.slugs.all %}
                 {% if member.username != request.user.username %}
-                <a class="hover:border-b-orange-400 p-4 h-full w-full float-none" href="{% url 'messagesapp:send' member.id %}">
-                    <div>
-                        <div class="float-start font-serif text-3xl"><h6 class="">slug</h6> {{member.username}}</div>
-                        <div class="p-2 float-end font-serif">last text at--    {{chat.date_modified}}</div>
+                <div class=" border-2 hover:border-white w-full flex rounded-lg contain-content">
+
+                    <div class="size-4/5">
+                        <a href="{% url 'messagesapp:send' member.username %}" class="hover:bg-orange-400 hover:text-white bg-orange-200 flex p-1 lg:p-2">
+                            <div class="lg:justify-between w-full lg:flex">
+                                <div class="lg:text-xl text-xs w-2/3 flex"> @{{member.username}}</div>
+                                <div class="m-auto lg:text-lg text-xs lg:text-right origin-left scale-50 lg:scale-75">--last text {{chat.date_modified | timesince }}</div>
+                            </div>
+                        </a>
                     </div>
-                </a>
+                    <div class="w-1/5 text-center m-auto">
+    
+                        {% if inbox_type == 'all' %}
+                        <a href="{% url 'messagesapp:archive' chat.id %}" class="font-serif flex hover:bg-blue-400 hover:text-white bg-blue-200 p-2 w-full">
+                            <i class="mx-auto">close</i>
+                        </a>
+                        {% else %}
+                            <a href="{% url 'messagesapp:send' member.username %}" class="font-serif flex hover:bg-blue-400 hover:text-white bg-blue-200 p-2 w-full">
+                                <i class="mx-auto">open</i>
+                            </a>            
+                        {% endif %}
+                    </div>
+                </div>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
+        {% endfor %}
         </div>
-    {% endfor %}
+
+        {% if conversations.has_other_pages %}
+        <div class="w-full text-center">
+            <div class="w-1/2 justify p-1 justify-between inline-flex space-x-10">
+                
+                {% if conversations.has_next %}
+                <form method="get" action="." class="mx-auto">
+                    <input type="hidden" name="p" value="{{conversations.next_page_number}}"></input>
+                    <button class="p-2 lg:px-6 bg-yellow-400 hover:bg-yellow-600 hover:text-white border border-white hover:border-black text-black rounded-sm lg:rounded-lg">
+                        next
+                    </button>
+                </form>
+                {% endif %}
+                {% if conversations.has_previous %}
+                <form method="get" action="." class="mx-auto">
+                    <input type="hidden" name="p" value="{{conversations.previous_page_number}}"></input>
+                    <button class="p-2 lg:px-6 bg-yellow-400 hover:bg-yellow-600 hover:text-white border border-white hover:border-black text-black rounded-sm lg:rounded-lg">
+                        prev
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+    {% else %}
+        <div class="p-5 text-center">
+            <hr>
+           NOTHING TO SEE HERE
+                <p class="scale-75 font-serif"> you currently have no open conversation </p>
+            <hr>
+        </div>
+    {% endif %}
     </div>
 {% endblock %}

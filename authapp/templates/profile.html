@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_div %} 
+    {% if request.user == slug %}
+        Welcome, {{ slug.first_name }}
+    {% else %}
+        {{ slug.username }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    
+    <div class="space-y-6 lg:px-4 px-2 pt-4">
+        <div class="lg:p-4 p-2 border-2 border-gray-400 w-full bg-yellow-400 rounded-sm lg:rounded-xl flex justify-between">
+            <div class="text-black text-sm lg:text-4xl block font-mono ml-2 lg:ml-4">
+                <div class="align-text-bottom ">{{slug.get_full_name}}</div>
+                <div class="align-text-bottom text-xs lg:text-2xl"><em>@{{slug.username}}</em></div>
+                <hr class="ml-2">
+
+                <div class="align-text-bottom text-xs lg:text-2xl mt-2">{{slug.about}}</div>
+                <div class="space-y-4 font-bold lg:text-xl text-xs mt-2 lg:scale-100 scale-75 origin-left">
+                    <a href="{% url 'authapp:network' slug.username 'followers' %}" class="bg-amber-300 hover:bg-amber-500 border-white border-2 text-white p-1 lg:p-2 rounded-sm hover:border-black">Followers: {{ slug.followers.all | length }}</a>
+                    <a href="{% url 'authapp:network' slug.username 'following' %}" class="bg-amber-600 hover:bg-amber-800 border-white border-2 text-white p-1 lg:p-2 rounded-sm hover:border-black">Following: {{ slug.following.all | length }}</a>
+                </div>
+            </div>
+           
+            {% if request.user != slug %}
+                <div class="text-xs lg:text-2xl lg:scale-75 scale-50 origin-top-right">
+                    <a href="{% url 'messagesapp:send' slug.username %}">
+                        <button class="bg-blue-600 text-white p-2 lg:p-4 mt-2 border-2 border-black lg:rounded-lg rounded-sm hover:border-white"> chat </button>
+                    </a>
+                    {% if request.user not in slug.followers.all %}
+                    <a href="{% url 'authapp:follow' slug.username %}">
+                        <button class="bg-blue-600 text-white p-2 lg:p-4 mt-2 border-2 border-black lg:rounded-lg rounded-sm hover:border-white"> follow </button>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'authapp:follow' slug.username %}">
+                        <button class="bg-amber-600 text-white p-2 lg:p-4 mt-2 border-2 border-black lg:rounded-lg rounded-sm hover:border-white"> following </button>
+                    </a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="my-auto lg:scale-75 scale-50 origin-top-right">
+
+                    <div class=" justify-between flex space-x-4">
+                        <a href="{% url 'authapp:settings' %}" class="p-2 bg-blue-600 text-xs lg:text-2xl text-white lg:p-4 mt-2 border-2 border-black lg:rounded-lg rounded-sm hover:border-white">
+                            SETTINGS  
+                        </a>
+                        <a href="{% url 'authapp:notifications' %}" class="p-2 bg-blue-600 text-xs lg:text-2xl text-white lg:p-4 mt-2 border-2 border-black lg:rounded-lg rounded-sm inline-flex hover:border-white">
+                            {% if unread_notifications > 0 %}
+                                <div class="bg-red-500 rounded-full origin-top-left size-fit scale-75 p-2 text-center" > {{ unread_notifications }} </div>
+                            {% endif %}
+                            NOTIFICATIONS  
+                        </a>
+                    </div>
+                    <div class=" justify-between flex space-x-4">
+                        <a href="{% url 'core:bookmarked_blogs' %}" class="p-2 bg-blue-600 text-xs lg:text-2xl text-white lg:p-4 mt-2 border-2 border-black lg:rounded-lg rounded-sm hover:border-white">
+                            My Bookmarks
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if request.user == slug %}
+    <div class="p-2 text-center lg:text-3xl">
+        <a href="{% url 'core:create_blog' %}"><button class="m-auto rounded-sm lg:rounded-xl bg-amber-100 p-2 border hover:bg-amber-300"> CREATE </button></a>
+    </div>
+    {% endif %}
+
+    <div class="mt-2 text-white bg-amber-950 text-xs lg:text-3xl p-2 mx-4 block text-center font-serif rounded-sm lg:rounded-xl"> 
+        {% if request.user == slug %}
+            Your Blogs
+        {% else %}
+            {{ slug.username }}'s Blogs
+        {% endif %}
+
+    </div>
+
+
+    <div class="py-2 font-serif space-y-2">
+        {% if all_blogs %}
+            
+            {% for blog in all_blogs %}
+            <div class="hover:bg-orange-400 hover:text-white border text-xs lg:text-xl border-black hover:border-white bg-orange-200 mx-2 flex lg:rounded-lg rounded-sm p-1 lg:p-2">
+                <a href="{% url 'core:blog' blog.id %}" class="size-full">
+                        <div class="flex justify-between">
+                            <div class="w-7/8">{{ blog.headline | title }}</div>
+                            <div class="w-1/8 h-0">
+                                {% if request.user in blog.bookmarkers.all %}
+                                        <img src="{% static 'logos/bookmark_filled.svg' %}" class="ml-auto lg:scale-75 scale-50 origin-top-right">
+                                {% else %}
+                                        <img src="{% static 'logos/bookmark_clear.svg' %}" class="ml-auto lg:scale-75 scale-50 origin-top-right">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="scale-75 origin-left">
+                            <em>by</em>: {{ blog.author.get_full_name | title }} - <em class="font-serif">{{blog.date_created}}</em> <br>
+                            <em>category</em>: {{ blog.category }}
+                        </div>
+                </a>
+            </div>
+            {% endfor %}
+
+            {% if all_blogs.has_other_pages %}
+            <div class="w-full text-center">
+                <div class="w-1/2 justify p-1 justify-between inline-flex space-x-10">
+                    
+                    {% if all_blogs.has_next %}
+                    <form method="get" action="." class="mx-auto">
+                        <input type="hidden" name="p" value="{{all_blogs.next_page_number}}"></input>
+                        <button class="p-2 lg:px-6 bg-yellow-400 hover:bg-yellow-600 hover:text-white border border-white hover:border-black text-black rounded-sm lg:rounded-lg">
+                            next
+                        </button>
+                    </form>
+                    {% endif %}
+                    {% if all_blogs.has_previous %}
+                    <form method="get" action="." class="mx-auto">
+                        <input type="hidden" name="p" value="{{all_blogs.previous_page_number}}"></input>
+                        <button class="p-2 lg:px-6 bg-yellow-400 hover:bg-yellow-600 hover:text-white border border-white hover:border-black  text-black rounded-sm lg:rounded-lg">
+                            prev
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+        {% else %}
+            <div class="p-2 space-y-4">
+                <div class="lg:text-5xl text-lg text-white bg-yellow-600 p-4"> It appears empty here </div>
+                <a href="{% url 'core:create_blog' %}"><button class="m-auto rounded-sm lg:rounded-xl bg-amber-100 p-4 lg:p-10 border-4"> CREATE </button></a>
+
+            </div>
+
+        {% endif %}
+    </div>
+
+{% endblock %}

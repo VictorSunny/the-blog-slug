@@ -1,32 +1,82 @@
 {% extends 'base.html' %}
-
+{% block title %} CHAT: {{ friend_name | upper }} {% endblock %}
+{% block page_div %} 
+    <a href="{% url 'authapp:profile' friend_name %}">
+        {{friend_name}}
+    </a>
+{% endblock %}
 {% block content %}
-    {% for message in conversation.messages.all %}
-    <div class="m-2 flow-root">
-        {% if message.sender == request.user %} 
-            <div class=" bg-amber-400 p-4 w-1/2 float-right rounded-tr-2xl rounded-bl-2xl"> 
-                <strong>{{ message.sender }}</strong> <h6 class="font-serif">sent at- {{ message.time_sent }}</h6>
-                <div class="text-2xl mt-2 rounded-2xl">
+
+<div>
+    {% if conversation.has_other_pages %}
+    <div class="w-full text-center">
+        <div class="w-1/2 justify p-1 justify-between inline-flex space-x-10">
+            {% if conversation.has_previous %}
+            <form method="get" action="." class="mx-auto">
+                <input type="hidden" name="p" value="{{conversation.previous_page_number}}"></input>
+                <button class="p-2 lg:px-6 bg-yellow-400 hover:bg-yellow-600 hover:text-white border border-white hover:border-black text-black rounded-sm lg:rounded-lg">
+                    older
+                </button>
+            </form>
+            {% endif %}
+            {% if conversation.has_next %}
+            <form method="get" action="." class="mx-auto">
+                <input type="hidden" name="p" value="{{conversation.next_page_number}}"></input>
+                <button class="p-2 lg:px-6 bg-yellow-400 hover:bg-yellow-600 hover:text-white border border-white hover:border-black text-black rounded-sm lg:rounded-lg">
+                    newer
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    {% for message in conversation %}
+    <div class="m-2 text-xs lg:text-xl font-serif">
+        {% if not message.is_indicator_message %}
+            {% if message.sender == request.user %} 
+            <div class=" bg-amber-400 p-2 w-1/2 ml-auto lg:rounded-tr-xl lg:rounded-bl-xl lg:rounded-tl-xl rounded-tr-sm rounded-tl-sm rounded-bl-sm  origin-right lg:scale-100 scale-75">
+                <div class="origin-left scale-75 w-full">
+                    <strong>{{ message.sender }}</strong>
+                </div>
+
+                <div>
                 {{message.text}}
+                    <div class="origin-left scale-50 w-full">
+                        <em>{{ message.time_sent | date:"D, M Y. g:i A." }}</em>
+                    </div>
                 </div>
             </div>
-        {% else %}
-            <div class="bg-yellow-200 p-4 w-1/2 float-left rounded-tl-2xl rounded-br-2xl">
-                <strong>{{ message.sender }}</strong> <h6>sent at- {{ message.time_sent }}</h6>
-                <div class="text-2xl mt-2 rounded-2xl">
-                {{message.text}} 
+            {% else %}
+            <div class=" bg-amber-200 p-2 w-1/2 mr-auto lg:rounded-bl-xl lg:rounded-tr-xl lg:rounded-br-xl rounded-bl-sm rounded-tr-sm rounded-br-sm  origin-left lg:scale-100 scale-75">
+                <div class="origin-left scale-75 w-full">
+                    <strong>{{ message.sender }}</strong>
                 </div>
+
+                <div>
+                {{message.text}}
+                    <div class="origin-left scale-50 w-full">
+                        <em>{{ message.time_sent | date:"D, M Y. g:i A." }}</em>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        {% else %}
+            <div class="text-xs lg:text-xl border-black bg-orange-200 mx-2 lg:rounded-lg rounded-sm p-1 scale-50 lg:scale-75 text-center">
+                {{ message.text }}
             </div>
         {% endif %}
+
     </div>
     {% endfor %}
     <form method="post" action="." class="p-6">
         {% csrf_token %}
-        <div class="bg-amber-800 rounded-2xl overflow-clip">
+        <div class="lg:rounded-lg rounded-sm overflow-clip">
             {{ form.text }}
         </div>
-        <button class="bg-blue-600 text-white rounded-2xl p-6 mt-4 mb-4"> send </button>
+        <button class="bg-blue-600 text-white lg:rounded-lg rounded-sm p-2 lg:p-4 my-2"> send </button>
     </form>
 
+</div>
 
 {% endblock %}

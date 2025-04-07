@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %} {{ network_type }} {% endblock %}
+
+{% block page_div %} {{ page_owner }}'s {{ network_type }} {% endblock %}
+{% block content %}
+
+<div class="space-y-4 p-4 lg:w-2/3 justify-center lg:mx-auto">
+    {% for worm in data %}
+    <div class="hover:bg-orange-400 hover:text-white border text-xs lg:text-xl border-black hover:border-white bg-orange-200 mx-2 flex lg:rounded-lg rounded-sm p-1 lg:p-2">
+        <div class="p-1 size-4/6 break-words font-mono px-4 border  rounded-lg bg-orange-200 hover:text-white my-auto">
+            <a href="{% url 'authapp:profile' worm.username %}" class="size-full">
+                {{ worm.username }}
+            </a>
+        </div>
+
+        <div class="text-center text-sm lg:text-xl float-right size-2/6 p-2">
+                {% if request.user == worm %}
+                    {{pass}}
+                {% elif request.user not in worm.followers.all %}
+                    <a href="{% url 'authapp:follow' worm.username %}" class="bg-green-300 text-white hover:bg-green-500 rounded-2xl px-2 my-auto"> follow </a>
+                {% else %}
+                    <a href="{% url 'authapp:follow' worm.username %}" class=" bg-amber-500 text-white hover:bg-amber-700 rounded-2xl px-2 my-auto"> unfollow </a>
+                {% endif %}
+            </div>
+     </div>
+    {% endfor %}
+    </div>
+    {% if data.has_other_pages %}
+    <div class="w-full p-2 justify-items-center">
+        <div class="p-4 bg-white text-black border border-black">
+            {{ data.number }} of {{ total_pages }}
+        </div>
+        <div class="w-1/2 justify p-1 justify-between inline-flex space-x-10">
+            {% if data.has_previous %}
+            <form method="get" action="." class="">
+                <input type="hidden" name="page" value="{{data.previous_page_number}}"></input>
+                <button class="px-10 py-2 bg-white text-black border border-black">
+                    prev
+                </button>
+            </form>
+            {% endif %}
+            {% if data.has_next %}
+            <form method="get" action="." class="">
+                <input type="hidden" name="page" value="{{data.next_page_number}}"></input>
+                <button class="px-10 py-2 bg-white text-black border border-black">
+                    next
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}

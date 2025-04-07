@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %} THE BLOG SLUG: LATEST NEWS {% endblock %}
+{% block content %}
+    {%csrf_token%}
+    <div class="inline-block space-y-2  mt-6 mb-6 text-xs lg:text-lg">
+    {% for row in article_dict %}
+        <div class="w-full px-2 font-serif">
+            <div class="hover:bg-orange-400 hover:text-white border border-black hover:border-white bg-orange-200 lg:rounded-lg rounded-sm w-full px-4">
+                <div> <a href={{row.link}} action="blank" >{{row.headline}}</a> </div>
+                <div class="scale-75 origin-left"> {{ row.date }} </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    {% if article_dict.has_other_pages %}
+    <div class="w-full text-center">
+        <div class="w-1/2 justify p-1 justify-between inline-flex space-x-10">
+            {% if article_dict.has_next %}
+            <form method="get" action="." class="mx-auto">
+                <input type="hidden" name="p" value="{{article_dict.next_page_number}}"></input>
+                <button class="p-2 lg:px-6 bg-yellow-400 hover:bg-yellow-600 hover:text-white border border-white hover:border-black text-black rounded-sm lg:rounded-lg">
+                    next
+                </button>
+            </form>
+            {% endif %}
+            {% if article_dict.has_previous %}
+            <form method="get" action="." class="mx-auto">
+                <input type="hidden" name="p" value="{{article_dict.previous_page_number}}"></input>
+                <button class="p-2 lg:px-6 bg-yellow-400 hover:bg-yellow-600 hover:text-white border border-white hover:border-black  text-black rounded-sm lg:rounded-lg">
+                    prev
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

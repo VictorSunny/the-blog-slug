@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Blog by {{ blog.author.get_full_name | title}} {% endblock %}
+{% block page_div %} 
+    <div class="space-x-4">
+        <div class="flex space-x-4">
+            <div>A</div>
+            <div> <a class="text-green-900 hover:border rounded-lg"> {{blog.category}}</a> </div>
+            <div>Blog By</div>
+        </div>
+         <a href="{% url 'authapp:profile' blog.author.username %}"><button class="bg-amber-400 p-2 scale-75 rounded-sm lg:rounded-lg border border-white"> {{ blog.author.username }} </button></a>
+
+    </div>
+{% endblock %}
+{% block content %}
+
+    <div class="space-y-10 mx-2">
+        <div class="lg:flex lg:text-xl border bg-orange-200 p-2 text-xs lg:justify-between ">
+            <div class="lg:w-5/8 justify-between lg:inline flex">
+                <div class="">
+                    <div class=" space-x-2"><strong class="font-serif text-xs lg:text-2xl">{{ blog.headline }}.</strong></div>
+                    by {{ blog.author.get_full_name }}. <br>
+                    <div class="lg:scale-75 scale-50 origin-left">
+                        <em class="font-serif lg:text-lg">{{ blog.date_created }} </em>
+                    </div>
+                </div>
+                <div>
+                    {% if request.user in blog.bookmarkers.all %}
+                        <a href="{% url 'core:bookmark' blog.id %}" class="size-fit">
+                            <img src="{% static 'logos/bookmark_filled.svg' %}" class="mr-auto lg:scale-75 lg:origin-left scale-50 origin-top-right">
+                        </a>
+                    {% else %}
+                        <a href="{% url 'core:bookmark' blog.id %}" class="size-fit">
+                            <img src="{% static 'logos/bookmark_clear.svg' %}" class="mr-auto lg:scale-75 lg:origin-left scale-50 origin-top-right">
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="lg:px-4 mt-auto lg:w-3/8 lg:scale-75 scale-50 origin-right text-right space-y-4">
+                <em class="font-serif text-xs lg:text-lg">-Last edited: {{ blog.date_modified | date:"D M, Y. g: i A" }}</em>
+            </div>
+        </div>
+
+        <div class="border-2 mt-2 mb-2 p-2 font-serif lg:text-base text-[10px] bg-orange-200"> {{ blog.body }} </div>
+    </div>
+{% if request.user == blog.author %}
+    <div class="bg-orange-300 w-full justify-between flex lg:px-4 py-2">
+        <div>
+            <a href="{% url 'core:edit_blog' blog.id %}">
+                <button class="lg:rounded-lg rounded-sm border border-black text-xs lg:text-xl mx-auto flex p-2 bg-blue-600 hover:bg-blue-400 text-white font-mono hover:border-white"> UPDATE </button>
+            </a>
+        </div>
+
+        {% if blog.alerts %}
+            <div>
+                <a href="{% url 'core:blog_alerts' blog.id %}" class="">
+                    <button class="lg:rounded-lg rounded-sm border border-black text-xs lg:text-xl mx-auto flex p-2 bg-green-600 hover:bg-blue-400 text-white font-mono hover:border-white"> NOTIFICATION: ON </button>
+                </a>
+            </div>
+        {% else %}
+            <div>
+                <a href="{% url 'core:blog_alerts' blog.id %}" class="">
+                    <button class="lg:rounded-lg rounded-sm border border-black text-xs lg:text-xl mx-auto flex p-2 bg-blue-600 hover:bg-blue-400 text-white font-mono hover:border-white"> NOTIFICATION: OFF </button>
+                </a>
+            </div>
+        {% endif %}
+
+        <div>
+            <a href="{% url 'core:confirm_delete' blog.id %}" class="items-start">
+                <button class="lg:rounded-lg rounded-sm border border-black text-xs lg:text-xl mx-auto flex p-2 bg-red-600 hover:bg-red-400 text-white font-mono hover:border-white"> DELETE </button>
+            </a>
+        </div>
+    </div>
+{% endif %}
+<div class="lg:px-4 py-20 bg-orange-300 space-y-6">
+    <div class="space-y-2">
+        {% if request.user.is_authenticated %}
+        <form method="post" class="lg:w-1/2 px-2 mr-auto rounded-sm lg:rounded-lg">
+            {% csrf_token %}
+            <div class="h-20"> {{ form.body }} </div>
+            <button class="mt-2 lg:rounded-lg rounded-sm border border-black text-lg lg:text-xl mx-auto p-2 bg-yellow-600 hover:bg-yellow-400 text-white font-mono" method="post"> comment </button>
+        </form>
+        {% else %}
+            <a href="{% url 'authapp:login' %}">
+                <div class="lg:rounded-lg rounded-sm bg-blue-600 hover:bg-blue-900 hover:border text-white p-2"> login to leave a comment </div>
+            </a>
+        {% endif %}
+    </div>
+
+        <div> comments </div>
+        
+    <div class="border p-2">
+    {% if comments %}
+        {% if comments.has_other_pages %}
+            <div class="w-full text-left">
+                <div class="w-1/2 inline-flex space-x-2">
+                    {% if comments.has_next %}
+                    <form method="get" action=".">
+                        <input type="hidden" name="cp" value="{{comments.next_page_number}}"></input>
+                        <button class="px-10 py-2 bg-white text-black border border-black rounded-sm lg:rounded-lg scale-50 lg:scale-75 origin-left hover:bg-gray-300">
+                            older
+                        </button>
+                    </form>
+                    {% endif %}
+                    {% if comments.has_previous %}
+                    <form method="get" action=".">
+                        <input type="hidden" name="cp" value="{{comments.previous_page_number}}"></input>
+                        <button class="px-10 py-2 bg-white text-black border border-black rounded-sm lg:rounded-lg scale-50 lg:scale-75 origin-left hover:bg-gray-300">
+                            newer
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="space-y-2">   
+        {% for comment in comments %}
+            <div class="border-black border text-xs lg:text-lg bg-orange-200 flex lg:rounded-lg rounded-sm full">
+                <div class="px-4 py-2 w-7/8">
+                    
+                    <div class="bg-amber-400 p-1 rounded-sm lg:rounded-lg border size-fit lg:scale-100 scale-75 hover:border-white"><a href="{% url 'authapp:profile' comment.author.username %}" class="size-full"><strong class="font-serif"> @{{comment.author.username}} </strong></a></div>
+                    <div class="font-thin text-sm lg:text-xl ">-- {{comment.body}} </div>
+
+                    <div class="scale-75 origin-left font-serif">
+                    <i>-{{ comment.date_created | timesince }} ago</i>
+                    </div>
+                </div>
+
+                {% if request.user == comment.author %}
+                <div class="scale-50 lg:scale-75 1/8">
+                    <a href="{% url 'core:delete_comment' comment.id %}">
+                        <button class="bg-red-800 text-white p-2 lg:rounded-lg rounded-sm"> Delete </button>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="text-6xl p-10 text-center font-mono bg-yellow-300 lg:rounded-lg rounded-sm">
+            <div class="lg:text-2xl text-sm text-center font-mono">
+                No comments yet.
+            </div>
+        </div>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

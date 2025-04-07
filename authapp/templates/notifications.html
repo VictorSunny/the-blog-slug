@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %} Notifications {% endblock %}
+{% block page_div %} Notifications {% endblock %}
+
+
+{% block page_name %} NOTIFICATIONS {% endblock %}
+
+{% block content %}
+    <div class="lg:w-3/5 font-mono mx-auto py-4 px-2 space-y-4">
+        {% if notifications %}
+            {% for alert in notifications %}
+                <div class="w-full lg:px-10">
+                {% if alert.viewed_status > 0 %}
+                    {% if alert.blog %}
+                    <div class="border rounded-sm text-black p-1 grid grid-cols-4 justify-between">
+                        <a href="{% url 'core:blog' 4 %}" class="col-span-3 sm:text-xs lg:text-xl bg-teal-200 p-1 border rounded-bl-sm rounded-tl-sm">
+                            <div class="scale-75 font-bold origin-left">
+                                <p>{{ alert.label }}</p>
+                                <p> {{ alert.body }} </p>
+
+                                <p class="text-sm font-serif"> {{alert.created_on }} </p>
+                            </div>
+                        </a>
+                        <a href="{% url 'authapp:profile' alert.connected_account.username %}" class="col-span-1 size-full justify-center items-center flex bg-amber-200 border rounded-br-sm rounded-tr-sm">
+                            @{{ alert.connected_account.username }}
+                        </a>
+                        
+                    </div>
+                    {% else %}
+                        <div class="border rounded-sm text-black p-1 flex">
+                            <a href="{% url 'authapp:profile' alert.connected_account.username %}" class="sm:text-xs lg:text-xl bg-teal-200 p-1 border rounded-sm size-full">
+                                <div class="scale-75 font-bold origin-left">
+                                    <em>{{ alert.label }}</em>
+                                    <p> {{ alert.body }} </p>
+
+                                    <p class="text-sm font-serif"> {{alert.created_on }} </p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% if alert.blog %}
+                        <div class="border rounded-sm text-black p-1 grid grid-cols-4 justify-between">
+                            <a href="{% url 'core:blog' 4 %}" class="col-span-3 sm:text-xs lg:text-xl bg-teal-100 p-1 border rounded-bl-sm rounded-tl-sm">
+                                <div class="scale-75 font-bold origin-left">
+                                    <p>{{ alert.label }}</p>
+                                    <p> {{ alert.body }} </p>
+
+                                    <p class="text-sm font-serif"> {{alert.created_on }} </p>
+                                </div>
+                            </a>
+                            <a href="{% url 'authapp:profile' alert.connected_account.username %}" class="col-span-1 size-full justify-center items-center flex bg-amber-100 border rounded-br-sm rounded-tr-sm">
+                                @{{ alert.connected_account.username }}
+                            </a>
+                            
+                        </div>
+                    {% else %}
+                        <div class="border rounded-sm text-black p-1 flex">
+                            <a href="{% url 'authapp:profile' alert.connected_account.username %}" class="sm:text-xs lg:text-xl bg-teal-100 p-1 border rounded-sm size-full">
+                                <div class="scale-75 font-bold origin-left">
+                                    <em>{{ alert.label }}</em>
+                                    <p> {{ alert.body }} </p>
+
+                                    <p class="text-sm font-serif"> {{alert.created_on }} </p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                </div>
+            {% endfor %}
+
+            {% if notifications.has_other_pages %}
+                <div class="w-full text-center">
+                    <div class="w-1/2 justify p-1 justify-between inline-flex space-x-10">
+                        
+                        {% if notifications.has_next %}
+                        <form method="get" action="." class="mx-auto">
+                            <input type="hidden" name="p" value="{{notifications.next_page_number}}"></input>
+                            <button class="p-2 lg:px-6 bg-yellow-400 hover:bg-yellow-600 hover:text-white border border-white hover:border-black text-black rounded-sm lg:rounded-lg">
+                                next
+                            </button>
+                        </form>
+                        {% endif %}
+                        {% if notifications.has_previous %}
+                        <form method="get" action="." class="mx-auto">
+                            <input type="hidden" name="p" value="{{notifications.previous_page_number}}"></input>
+                            <button class="p-2 lg:px-6 bg-yellow-400 hover:bg-yellow-600 hover:text-white border border-white hover:border-black text-black rounded-sm lg:rounded-lg">
+                                prev
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+              {% endif %}
+
+        {% else %}
+                <div class="text-6xl px-10 py-20 text-center font-mono bg-orange-200 mx-2 rounded-xl">
+                    <div class="lg:text-6xl text-xl px-10 lg:py-24 sm:py-12 text-center font-mono">
+                        Looks like there's nothing here
+                    </div>
+                </div>
+        {% endif %}
+    </div>
+{% endblock %}

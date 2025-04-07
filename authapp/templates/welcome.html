@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %} Welcome {% endblock %}
+{% block page_div %}{% endblock %}
+{% block navbar %}{% endblock %}
+{% block utils %}{% endblock %}
+
+{% block content %}
+    <div class="py-6">
+        <div class="lg:text-5xl font-bold text-2xl font-mono py-4 text-cyan-700 text-center"> A WORM WELCOME </div>
+        <div class="w-4/5 mx-auto font-mono space-y-4">
+            <p class="lg:text-2xl text-sm">
+                Worm Books is a site for readers to discover their next read,
+                as well as share their own recommendations, connecting with a community of readers
+                all around the world.
+            </p>
+            <p class="lg:text-2xl text-sm">
+                To ensure that our goal is achieved, there are a few ethical guidelines
+                to keep in mind while online to preserve the quality and integrity of our community,
+                as well as your own overall experience, as you are a vital building block of this community.
+            </p>
+        </div>
+
+        <div class="lg:text-3xl font-bold text-xl font-mono py-4 text-cyan-700 text-center"> RULES </div>
+        <div class="w-4/5 mx-auto font-serif text-center">
+            <ul class="space-y-2 text-left lg:text-xl text-xs text-green-800">
+                <li>
+                    <strong>-Interact</strong> <p class="indent-10 font-mono">
+                        Find a book interesting? Leave a like and comment. Hopefully this encourages the next lucky reader to pick it up. ;)</p>
+                </li>
+                <li>
+                    <strong>-Keep it healthy</strong> <p class="indent-10 font-mono">
+                        Keep your comments friendly, and criticisms, if you must, creative. ;)</p>
+                </li>
+                <li>
+                    <strong>-Recommend</strong><em>(optional)</em> <p class="indent-10 font-mono">Don't shy away from sharing that book, or books. ;)</p>
+                </li>
+                <li>
+                    <strong>-Contribute</strong><em>(optional)</em> <p class="indent-10 font-mono">
+                        Some readers may post books with incomplete information. You can help out by filling in 
+                        the blanks in the <a class="text-blue-700"><em>contribute</em></a> section.
+                         ;)</p>
+                </li>
+                <li class="lg:text-2xl text-lg text-red-700">
+                    <strong>-Be cool</strong><em>(*please, **required)</em> <p class="indent-10 font-mono">Don't spam. ;)</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="lg:text-3xl font-bold text-xl font-mono py-10 mt-10 text-cyan-700 text-center"> 💛 HEAD ON AND START DISCOVERING 💛 </div>
+        <div class="mx-auto text-center p-4">
+        <a href="{% url 'core:home' %}" class="lg:text-xl text-sm p-4 bg-cyan-500 hover:bg-cyan-700 border rounded-sm lg:rounded-xl text-white border-white"> Discover </a>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django import forms
 from .models import Conversation, SlugMessages
 
-standard_styling = 'w-full text-lg p-4 px-4 h-30 text-white'
+standard_styling = 'w-full lg:h-20 h-10 p-2 border border-black w-full hover:border-white rounded-sm lg:rounded-lg bg-white'
 class ChatForm(forms.ModelForm):
     class Meta:
         model = SlugMessages

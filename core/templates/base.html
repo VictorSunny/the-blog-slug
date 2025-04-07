@@ -5,79 +5,88 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src= "https://cdn.tailwindcss.com" ></script>
+    <title>{% block title %} THE BLOG SLUG {% endblock %}</title>
+    <link href= "{% static '/src/styles.css' %}"  rel="stylesheet"/>
 </head>
 
-<body class="bg-gray-200">
-    <nav class="bg-yellow-600 px-6 py-6 flex text-lg text-green-950 justify-between items-center" >
-        <div class="w-2/3">
-            <a href="{% url 'core:home' %}" class="font-bold text-9xl text-gray-950 font-serif ">
+<body class="bg-orange-100 contain-content">
+    <nav class="bg-yellow-600 px-6 py-4 flex text-lg text-green-950 lg:justify-between items-center border-b" >
+        <div class="lg:w-1/2 w-full">
+            <a href="{% url 'core:home' %}" class="font-bold mx-auto text-2xl lg:text-8xl text-gray-950 font-serif ">
               THE BLOG SLUG
             </a>
         </div>
-            <div class="w-1/3 justify-items-end">
-                <div class="space-y-9 mb-20">
-                    <div class="block space-y-14 h-full align-middle bg">
-                        <a href="/" class="align-middle p-4 border-2 font-bold bg-green-500 rounded-3xl w-5"> LATEST NEWS</a>
-                        <a href="{% url 'core:all-blogs' %}" class="align-middle p-4 border-2 font-bold bg-yellow-400 rounded-3xl w-5"> BLOGS </a>
-                    </div>
-                    {% if request.user.is_authenticated%}
-                    <div class="flex space-x-3 h-full align-middle bg">
-                        <a href="{% url 'core:profile' %}" class="align-middle p-4 font-bold bg-green-500 rounded-3xl border-2"> Dashboard </a>
-                        <a href= "{% url 'messagesapp:inbox' %}" class="align-middle p-4 font-bold bg-yellow-400 rounded-3xl border-2"> Messages </a>
-                        <a href="{% url 'core:logout' %}" class="align-middle p-4 font-bold bg-red-500 text-white rounded-3xl border-2"> Logout </a>
-                    </div>
-                    {% else %}
-                    <div class="flex space-x-3 h-full align-middle bg">
-                        <a href="{% url 'core:login' %}" class="align-middle p-4 font-bold bg-green-500 rounded-3xl border-2"> Login</a>
-                        <a href= "{% url 'core:signup' %}" class="align-middle p-4 font-bold bg-yellow-400 rounded-3xl border-2"> Signup</a>
-                    </div>
-                    {% endif %}
+
+        <div class="lg:w-1/2 w-full mx-auto justify-items-end scale-75 origin-right">
+            <div class="lg:space-y-12 space-y-4 text-xs lg:text-2xl">
+                <div class="lg:space-y-14 align-middle bg justify-between">
+                    <a href="{% url 'core:home' %}" class="lg:p-4 p-1 border-2 font-bold bg-green-500 rounded-sm lg:rounded-xl hover:border-white"> LATEST NEWS</a>
+                    <a href="{% url 'core:all_blogs' %}" class="lg:p-4 p-1 border-2 font-bold bg-yellow-400 rounded-sm lg:rounded-xl hover:border-white"> BLOGS </a>
                 </div>
+                {% if request.user.is_authenticated%}
+                <div class="space-x-2 space-y-4 h-full flex-wrap justify-between">
+                    <a href="{% url 'authapp:profile' request.user.username %}" class="text-center lg:p-4 p-1 font-bold bg-green-500 rounded-sm lg:rounded-xl border-2 w-1/2 hover:border-white">Dashboard</a>
+                    <a href= "{% url 'messagesapp:inbox' 'all' %}" class="text-center lg:p-4 p-1 font-bold bg-yellow-400 rounded-sm lg:rounded-xl border-2 w-1/2 hover:border-white">Messages</a>
+                </div>
+                <div><a href="{% url 'authapp:logout' %}" class="text-center lg:p-4 p-1 font-bold bg-red-500 text-white rounded-sm lg:rounded-xl border-2 w-1/3 hover:border-black">Logout</a></div>
+
+                {% else %}
+                <div class="justify-between space-x-3 h-full align-middle bg">
+                    <a href="{% url 'authapp:login' %}" class="align-middle lg:p-4 p-1 font-bold bg-green-500 rounded-sm lg:rounded-xl border-2 hover:border-white"> Login</a>
+                    <a href= "{% url 'authapp:signup' %}" class="align-middle lg:p-4 p-1 font-bold bg-yellow-400 rounded-sm lg:rounded-xl border-2 hover:border-white"> Signup</a>
+                </div>
+                {% endif %}
             </div>
+        </div>
+        
+
     </div>
     </nav>
-    <main class="overflow-clip">
+    <div class="text-white bg-yellow-600 text-sm lg:text-4xl p-2 text-center font-serif size-fit mx-auto border-b border-x border-black scale-75 origin-top">
+        {% block page_div %} Latest News For Blog Ideas {% endblock %}
+    </div>
+
+    <main class="overflow-clip text-xs lg:text-xl font-mono">
         {% block content %}
         {% endblock %}
     </main>
 </body>
-<footer class="bg-yellow-600">
+<footer class="text-xs lg:text-lg bg-yellow-600 font-serif">
     {% load static %}
-    <div class="py-6 flow-root">
-        <div class="w-1/3 float-left">
+    <div class="px-2 flex justify-between">
+        <div class="py-2 w-1/3">
             <hr>
-            <table class="m-auto">
-                <header class="text-3xl mt-10 ml-5 font-bold">Contact the Dev ▼</header>
-                <tr class="space-y-4 h-20">
-                    <td class=" text-lg font-mono">Email- </td>
+            <div class="m-auto inline space-y-2">
+                <div class="lg:text-xl text-xs py-2 text-right font-bold">Contact the Dev ▼</div>
+                <div class="lg:h-20 flex justify-between mt-2 mb-2">
+                    <td class="font-mono">Email- </td>
 
-                    <td><a href="mailto:doobam007@gmail.com"><div><img src="{% static 'logos/email.png' %}" class="h-10"></div></a></td>
-                </tr>
-                <tr class="space-y-4 h-20">
-                    <td class="text-lg font-mono">Linkedin- </td>
-
-                    <td><a href="https://www.linkedin.com/in/victor-sunny-6b06ba220/"><div><img src="{% static 'logos/linkedin.png' %}" class="h-10"></div></a></td>
-                </tr>
-                <tr class="space-y-4 h-20">
-                    <td class="text-lg font-mono">Github- </td>
-
-                    <td><a href="https://github.com/victorsunny/"><div><img src="{% static 'logos/github.png' %}" class="h-10"></div></a></td>
-                </tr>
-            </table>
-        </div>
-            <div class="float-right justify-between mt-14 mr-12">
-                <hr>
-                <div class="font-serif text-xl text-right">
-                    Host blogs on <strong>The Blog Slug</strong><br>
-                    Get feedback<br>
-                    Connect<br>
+                    <td><a href="mailto:doobam007@gmail.com"><div><img src="{% static 'logos/email.png' %}" class="lg:h-10 h-5"></div></a></td>
                 </div>
-                <hr>
+                <div class="lg:h-20 flex justify-between mb-2">
+                    <td class="font-mono">Linkedin- </td>
 
+                    <td><a href="https://www.linkedin.com/in/victor-sunny-6b06ba220/"><div><img src="{% static 'logos/linkedin.png' %}" class="lg:h-10 h-5"></div></a></td>
+                </div>
+                <div class="lg:h-20 flex justify-between mb-2">
+                    <td class="font-mono">Github- </td>
+
+                    <td><a href="https://github.com/victorsunny/"><div><img src="{% static 'logos/github.png' %}" class="lg:h-10 h-5"></div></a></td>
+                </div>
             </div>
-    </div> 
+        </div>
+
+        <div class="w-1/2 mt-14 lg:mr-12 mr-2">
+            <hr>
+            <div class="font-mono lg:text-`xl text-right">
+                Host blogs on <strong>The Blog Slug</strong><br>
+                Get feedback<br>
+                Connect<br>
+            </div>
+            <hr>
+
+        </div>
+    </div>
     <hr class="rule">
     <div class="text-center py-4">
         © Copyright {% now "Y" %}, <br> The Blog Slug.

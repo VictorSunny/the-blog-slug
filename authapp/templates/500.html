@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} SERVER ERROR {% endblock %}
+{% block page_div %} SERVER ERROR {% endblock %}
+{% block navbar %}{% endblock %}
+{% block utils %}{% endblock %}
+
+{% block content %}
+<div class="px-5 py-10 space-y-4 font-mono lg:text-4xl text-sm mx-auto w-full text-center">
+    <div>
+        SORRY, OUR SERVERS CANNOT HANDLE YOUR REQUEST AT THE MOMENT <BR>
+        PLEASE TRY AGAIN LATER.
+    </div>
+    <a href="{% url 'core:home' %}" class="lg:rounded-lg rounded-sm border border-black text-sm lg:text-xl p-2 ml-4 bg-yellow-600 hover:bg-yellow-400 text-white">
+        go back home
+    </a>
+</div>
+{% endblock %}
