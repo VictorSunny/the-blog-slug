@@ -139,7 +139,7 @@ def otp_verification_view(request, action):
         if timezone.now() > verification_object.created_at + timedelta(minutes=3):
             verification_object.delete()
             print('expired otp deleted')
-            raise FileNotFoundError
+            return redirect(request.path)
         else:
             otp = verification_object.code
             print(otp)
