@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm, UserModel
 from django import forms
 from django.core.validators import RegexValidator
+from django_countries.widgets import CountrySelectWidget
 
 User = get_user_model()
 
@@ -24,7 +25,8 @@ class UserCreation(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'about']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'nationality', 'about']
+        widgets = {'nationality': CountrySelectWidget(attrs= {'class': form_css_styling, 'required': True})}
 
     username = forms.CharField(widget= forms.TextInput(attrs={
         'placeholder': 'Username here please',

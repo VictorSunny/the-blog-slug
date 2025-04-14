@@ -1,13 +1,29 @@
 {% extends 'base.html' %}
 {% block title %} THE BLOG SLUG: LATEST NEWS {% endblock %}
+{% block page_div %}
+    Latest News For Blog Ideas
+    {% if not request.user.is_authenticated %}
+        <p class="lg:text-lg text-[8px]">
+            login to see news from your country
+        </p>
+    {% else %}
+        <p class="lg:text-lg text-[8px]">
+            news from {{ request.user.nationality.name | lower }}
+        </p>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     {%csrf_token%}
     <div class="inline-block space-y-2  mt-6 mb-6 text-xs lg:text-lg">
     {% for row in article_dict %}
         <div class="w-full px-2 font-serif">
             <div class="hover:bg-orange-400 hover:text-white border border-black hover:border-white bg-orange-200 lg:rounded-lg rounded-sm w-full px-4">
-                <div> <a href={{row.link}} action="blank" >{{row.headline}}</a> </div>
-                <div class="scale-75 origin-left"> {{ row.date }} </div>
+                <a href="{% url 'core:news_article' forloop.counter0|add:index_offset %}" class="size-full" >
+                    <div>{{row.title}}</div>
+                    <div class="scale-75 origin-left">by: {{ row.author }} -- category: {% if row.category %} {{ row.category }} {% else %} others {% endif %} </div>
+                    <div class="scale-75 origin-left"> {{ row.publish_date }} </div>
+                </a>
             </div>
         </div>
     {% endfor %}

@@ -14,12 +14,13 @@
             <div class="text-black text-sm lg:text-4xl block font-mono ml-2 lg:ml-4">
                 <div class="align-text-bottom ">{{slug.get_full_name}}</div>
                 <div class="align-text-bottom text-xs lg:text-2xl"><em>@{{slug.username}}</em></div>
-                <hr class="ml-2">
+                <div class="lg:text-lg text-[8px]"> {{slug.nationality.name}} </div>
+                <hr>
 
                 <div class="align-text-bottom text-xs lg:text-2xl mt-2">{{slug.about}}</div>
-                <div class="space-y-4 font-bold lg:text-xl text-xs mt-2 lg:scale-100 scale-75 origin-left">
-                    <a href="{% url 'authapp:network' slug.username 'followers' %}" class="bg-amber-300 hover:bg-amber-500 border-white border-2 text-white p-1 lg:p-2 rounded-sm hover:border-black">Followers: {{ slug.followers.all | length }}</a>
-                    <a href="{% url 'authapp:network' slug.username 'following' %}" class="bg-amber-600 hover:bg-amber-800 border-white border-2 text-white p-1 lg:p-2 rounded-sm hover:border-black">Following: {{ slug.following.all | length }}</a>
+                <div class="space-y-4 py-2 font-bold lg:text-xl text-xs mt-2 lg:scale-100 scale-75 origin-left">
+                    <div><a href="{% url 'authapp:network' slug.username 'followers' %}" class="bg-amber-300 hover:bg-amber-500 border-white border-2 text-white p-1 lg:p-2 rounded-sm hover:border-black">Followers: {{ slug.followers.all | length }}</a></div>
+                    <div><a href="{% url 'authapp:network' slug.username 'following' %}" class="bg-amber-600 hover:bg-amber-800 border-white border-2 text-white p-1 lg:p-2 rounded-sm hover:border-black">Following: {{ slug.following.all | length }}</a></div>
                 </div>
             </div>
            
@@ -82,11 +83,15 @@
         {% if all_blogs %}
             
             {% for blog in all_blogs %}
-            <div class="hover:bg-orange-400 hover:text-white border text-xs lg:text-xl border-black hover:border-white bg-orange-200 mx-2 flex lg:rounded-lg rounded-sm p-1 lg:p-2">
+            <div class="hover:bg-orange-400 hover:text-white border text-xs lg:text-xl border-black hover:border-white bg-orange-200 mx-2 flex lg:rounded-lg rounded-sm px-2 py-1">
                 <a href="{% url 'core:blog' blog.id %}" class="size-full">
                         <div class="flex justify-between">
-                            <div class="w-7/8">{{ blog.headline | title }}</div>
-                            <div class="w-1/8 h-0">
+                            <div>
+                                <div>{{blog.headline | title }}</div>
+                                <div class="scale-75 origin-left">by: {{ blog.author.get_full_name }} -- category: {{ blog.category.name }}  </div>
+                                <div class="scale-75 origin-left"> {{ blog.date_created }} </div>
+                            </div>
+                                    <div class="w-1/8 h-0">
                                 {% if request.user in blog.bookmarkers.all %}
                                         <img src="{% static 'logos/bookmark_filled.svg' %}" class="ml-auto lg:scale-75 scale-50 origin-top-right">
                                 {% else %}
@@ -94,10 +99,7 @@
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="scale-75 origin-left">
-                            <em>by</em>: {{ blog.author.get_full_name | title }} - <em class="font-serif">{{blog.date_created}}</em> <br>
-                            <em>category</em>: {{ blog.category }}
-                        </div>
+    
                 </a>
             </div>
             {% endfor %}
@@ -128,9 +130,10 @@
 
         {% else %}
             <div class="p-2 space-y-4">
-                <div class="lg:text-5xl text-lg text-white bg-yellow-600 p-4"> It appears empty here </div>
-                <a href="{% url 'core:create_blog' %}"><button class="m-auto rounded-sm lg:rounded-xl bg-amber-100 p-4 lg:p-10 border-4"> CREATE </button></a>
-
+                <div class="lg:text-4xl text-sm text-center text-white bg-yellow-600 p-4 space-y-4">
+                     <div>It appears empty here</div>
+                     {% if request.user.username == slug.username %} <a href="{% url 'core:create_blog' %}"><button class="m-auto rounded-sm lg:rounded-xl bg-amber-100 p-4 lg:p-10 border text-black"> START WRITING </button></a>{% endif %}
+                </div>
             </div>
 
         {% endif %}

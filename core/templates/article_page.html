@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Blog by {{ blog.author.get_full_name | title}} {% endblock %}
+{% block page_div %} 
+    <div class="space-x-4">
+        <div>A News Article By {{ article.author }} </div>
+    </div>
+{% endblock %}
+{% block content %}
+
+    <div class="space-y-10 mx-2">
+        <div class="lg:flex lg:text-xl border bg-orange-200 p-2 text-xs justify-between">
+                <div class="w-6/8">
+                    <div class=" space-x-2"><strong class="font-serif text-xs lg:text-2xl">{{ article.title }}.</strong></div>
+                    by {{ article.author }}. <br>
+                    <div class="lg:scale-75 scale-50 origin-left">
+                        <em class="font-serif lg:text-lg">{{ article.publish_date }} </em>
+                    </div>
+                </div>
+                <hr>
+                <div class="lg:w-2/8 w-full h-fit mt-auto flex text-right">
+                        <a href="{{ article.url }}" class="text-xs lg:scale-100 scale-50 origin-right lg:rounded-lg rounded-sm border border-black p-1 lg:p-2 bg-blue-500 text-white hover:border-white text-center ml-auto">
+                            VISIT OFFICIAL SOURCE
+                        </a>
+                </div>
+        </div>
+
+        <div class="border-2 mt-2 mb-2 py-6 p-2 font-serif lg:text-base text-[10px] bg-orange-200"> <p class="whitespace-break-spaces">{{ article.text | safe }}</p> </div>
+    </div>
+
+{% endblock %}

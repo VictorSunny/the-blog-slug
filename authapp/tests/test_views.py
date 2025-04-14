@@ -23,7 +23,8 @@ class AuthappViews(TestCase):
                 email= "test1@user.com",
                 first_name= "first",
                 last_name= "user",
-                password= "AA@@bb11"
+                password= "AA@@bb11",
+                nationality= "NG",
             )
         
         cls.testuser3 = User.objects.create_user(
@@ -31,7 +32,8 @@ class AuthappViews(TestCase):
                 email= "test3@user.com",
                 first_name= "third",
                 last_name= "user",
-                password= "AA@@bb33"
+                password= "AA@@bb33",
+                nationality= "NG",
             )
         
     def login_first_user(self):
@@ -62,7 +64,8 @@ class AuthappViews(TestCase):
                 "first_name": "second",
                 "last_name": "user",
                 "password1": "AA@@bb22",
-                "password2": "AA@@bb22"
+                "password2": "AA@@bb22",
+                "nationality": "NG",
             },
         )
         print(signup_post_action.content)

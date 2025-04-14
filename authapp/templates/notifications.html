@@ -13,7 +13,7 @@
                 {% if alert.viewed_status > 0 %}
                     {% if alert.blog %}
                     <div class="border rounded-sm text-black p-1 grid grid-cols-4 justify-between">
-                        <a href="{% url 'core:blog' 4 %}" class="col-span-3 sm:text-xs lg:text-xl bg-teal-200 p-1 border rounded-bl-sm rounded-tl-sm">
+                        <a href="{% url 'core:blog' alert.blog.id %}" class="col-span-3 sm:text-xs lg:text-xl bg-teal-200 p-1 border rounded-bl-sm rounded-tl-sm">
                             <div class="scale-75 font-bold origin-left">
                                 <p>{{ alert.label }}</p>
                                 <p> {{ alert.body }} </p>
@@ -41,7 +41,7 @@
                 {% else %}
                     {% if alert.blog %}
                         <div class="border rounded-sm text-black p-1 grid grid-cols-4 justify-between">
-                            <a href="{% url 'core:blog' 4 %}" class="col-span-3 sm:text-xs lg:text-xl bg-teal-100 p-1 border rounded-bl-sm rounded-tl-sm">
+                            <a href="{% url 'core:blog' alert.blog.id %}" class="col-span-3 sm:text-xs lg:text-xl bg-teal-100 p-1 border rounded-bl-sm rounded-tl-sm">
                                 <div class="scale-75 font-bold origin-left">
                                     <p>{{ alert.label }}</p>
                                     <p> {{ alert.body }} </p>

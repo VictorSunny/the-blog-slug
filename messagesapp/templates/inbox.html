@@ -2,7 +2,7 @@
 {% block title %} INBOX {% endblock %}
 {% block page_div %} {{ inbox_type | title }} Messages  {% endblock %}
 {% block content %}
-    <div class="space-y-10 px-4 py-2">
+    <div class="space-y-10 lg:px-4 px-2 py-2">
         <div class="py-2 text-right font-serif">
             <a href="{% url 'messagesapp:inbox' inbox_toggle %}" class="p-2 bg-orange-200 border-2 hover:border-orange-400 rounded-sm lg:rounded-lg">
                 see {{ inbox_toggle }} messages

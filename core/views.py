@@ -13,21 +13,36 @@ from .custom_functions import notification_cleanser
 
 # Create your views here.
 
-from .new import dict
 #Import custom authentication user model and assign to variable 'User'
 User = get_user_model()
 
 # Home view for retrieving and displaying constantly updating news article headlines source from
 # aa reputable local news website known as the punch nigeria using a webscraping the datafetcher module
 def home_view(request):
-    # article_dict = datafetcher()
-    article_dict = dict
-    page = request.GET.get('p')
+    data = datafetcher(request)
 
-    paginator_class = Paginator(article_dict, 10)
+    article_dict = data["news"]
+    # article_dict = dict
+
+    page = request.GET.get('p')
+    perpage = 6
+
+    paginator_class = Paginator(article_dict, perpage)
     article_dict = paginator_class.get_page(page)
 
-    return render(request, "index.html", {"article_dict": article_dict})
+    index_offset = 0
+    if page:
+        if int(page) > 1:
+            index_offset = (int(page) - 1) * perpage
+
+
+    return render(request, "index.html", {"article_dict": article_dict, "index_offset": index_offset})
+
+def news_view(request, index):
+    data = datafetcher(request)
+    article = data["news"][index]
+
+    return render(request, "article_page.html", {"article": article})
 
     
 # view for creating blog articles
@@ -83,7 +98,7 @@ def edit_blog_view(request, pk):
             #raise permission error is request user is not the author of the article
             if request.user.id == blog.author.id:
 
-                if updated_headline == initial_headline or updated_body == initial_body:
+                if updated_headline == initial_headline and updated_body == initial_body:
                     form.add_error("body", "No changes detected")
                 else:
                     form.save()
@@ -154,17 +169,21 @@ def all_blogs_view(request):
     #retrive all categories for filtering
     blog_categories = Category.objects.all()
 
+    page_title = 'Blogs By Users'
+
     #retrieve url parameters for filtering and pagination
     category_filter = request.GET.get("cat")
     page = request.GET.get("p")
 
     if category_filter:
         all_blogs = all_blogs.filter(category__slug= category_filter)
+        if category_filter != 'all':
+            page_title = str(category_filter.title()) + " " + page_title
     
     paginator_class = Paginator(all_blogs, 8)
     all_blogs = paginator_class.get_page(page)
 
-    return render(request, "all_blogs.html", {'all_blogs': all_blogs, 'categories': blog_categories, 'category_filter': category_filter, 'page_title': 'Blogs By Users'})
+    return render(request, "all_blogs.html", {'all_blogs': all_blogs, 'categories': blog_categories, 'category_filter': category_filter, 'page_title': page_title})
 
 #view for retrieving and displaying blogs that have been bookmarked by user
 def bookmarked_blogs_view(request):

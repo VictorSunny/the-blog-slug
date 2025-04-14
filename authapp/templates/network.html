@@ -6,20 +6,20 @@
 
 <div class="space-y-4 p-4 lg:w-2/3 justify-center lg:mx-auto">
     {% for worm in data %}
-    <div class="hover:bg-orange-400 hover:text-white border text-xs lg:text-xl border-black hover:border-white bg-orange-200 mx-2 flex lg:rounded-lg rounded-sm p-1 lg:p-2">
-        <div class="p-1 size-4/6 break-words font-mono px-4 border  rounded-lg bg-orange-200 hover:text-white my-auto">
-            <a href="{% url 'authapp:profile' worm.username %}" class="size-full">
+    <div class="hover:bg-orange-300 border text-xs lg:text-xl border-black hover:border-white bg-orange-200 mx-2 flex justify-between lg:rounded-lg rounded-sm p-1 lg:p-2">
+        <div class="p-1 w-6/8 break-words font-mono px-4 border  rounded-lg hover:bg-amber-600 hover:text-white my-auto">
+            <a href="{% url 'authapp:profile' worm.username %}" class="size-full flex">
                 {{ worm.username }}
             </a>
         </div>
 
-        <div class="text-center text-sm lg:text-xl float-right size-2/6 p-2">
+        <div class="text-center text-xs lg:text-xl float-right w-2/8 p-2">
                 {% if request.user == worm %}
                     {{pass}}
                 {% elif request.user not in worm.followers.all %}
-                    <a href="{% url 'authapp:follow' worm.username %}" class="bg-green-300 text-white hover:bg-green-500 rounded-2xl px-2 my-auto"> follow </a>
+                    <a href="{% url 'authapp:follow' worm.username %}" class="bg-green-300 hover:text-white hover:bg-green-500 rounded-lg px-2 my-auto size-full"> follow </a>
                 {% else %}
-                    <a href="{% url 'authapp:follow' worm.username %}" class=" bg-amber-500 text-white hover:bg-amber-700 rounded-2xl px-2 my-auto"> unfollow </a>
+                    <a href="{% url 'authapp:follow' worm.username %}" class=" bg-amber-500 hover:text-white hover:bg-amber-700 rounded-lg px-2 my-auto size-full "> unfollow </a>
                 {% endif %}
             </div>
      </div>

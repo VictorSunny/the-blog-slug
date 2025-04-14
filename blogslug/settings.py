@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'messagesapp.apps.MessagesappConfig',
+    'django_countries',
     'authapp.apps.AuthappConfig',
     'core.apps.CoreConfig',
 ]

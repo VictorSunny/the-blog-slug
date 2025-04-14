@@ -34,9 +34,9 @@
     <div class="m-2 text-xs lg:text-xl font-serif">
         {% if not message.is_indicator_message %}
             {% if message.sender == request.user %} 
-            <div class=" bg-amber-400 p-2 w-1/2 ml-auto lg:rounded-tr-xl lg:rounded-bl-xl lg:rounded-tl-xl rounded-tr-sm rounded-tl-sm rounded-bl-sm  origin-right lg:scale-100 scale-75">
+            <div class=" bg-amber-400 px-4 py-1 w-1/2 ml-auto lg:rounded-tr-xl lg:rounded-bl-xl lg:rounded-tl-xl rounded-tr-sm rounded-tl-sm rounded-bl-sm  origin-right lg:scale-100 scale-75">
                 <div class="origin-left scale-75 w-full">
-                    <strong>{{ message.sender }}</strong>
+                    <strong>@{{ message.sender }}</strong>
                 </div>
 
                 <div>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             {% else %}
-            <div class=" bg-amber-200 p-2 w-1/2 mr-auto lg:rounded-bl-xl lg:rounded-tr-xl lg:rounded-br-xl rounded-bl-sm rounded-tr-sm rounded-br-sm  origin-left lg:scale-100 scale-75">
+            <div class=" bg-amber-200 px-4 py-1 w-1/2 mr-auto lg:rounded-bl-xl lg:rounded-tr-xl lg:rounded-br-xl rounded-bl-sm rounded-tr-sm rounded-br-sm  origin-left lg:scale-100 scale-75">
                 <div class="origin-left scale-75 w-full">
                     <strong>{{ message.sender }}</strong>
                 </div>

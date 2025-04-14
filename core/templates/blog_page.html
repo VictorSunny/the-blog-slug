@@ -5,7 +5,7 @@
     <div class="space-x-4">
         <div class="flex space-x-4">
             <div>A</div>
-            <div> <a class="text-green-900 hover:border rounded-lg"> {{blog.category}}</a> </div>
+            <div> <a href="{% url 'core:all_blogs' %}?cat={{blog.category.slug}}" class="text-green-900 hover:border rounded-lg"> {{blog.category}}</a> </div>
             <div>Blog By</div>
         </div>
          <a href="{% url 'authapp:profile' blog.author.username %}"><button class="bg-amber-400 p-2 scale-75 rounded-sm lg:rounded-lg border border-white"> {{ blog.author.username }} </button></a>
@@ -36,12 +36,20 @@
                     {% endif %}
                 </div>
             </div>
+            <hr>
             <div class="lg:px-4 mt-auto lg:w-3/8 lg:scale-75 scale-50 origin-right text-right space-y-4">
-                <em class="font-serif text-xs lg:text-lg">-Last edited: {{ blog.date_modified | date:"D M, Y. g: i A" }}</em>
+                <div>
+                    <a href="{{ blog.source }}" class="text-xs origin-right lg:rounded-lg rounded-sm border border-black p-1 lg:p-2 bg-blue-500 text-white hover:border-white text-center ml-auto">
+                        VISIT OFFICIAL SOURCE
+                    </a>
+                </div>
+                <div>
+                    <em class="font-serif text-xs lg:text-lg">-Last edited: {{ blog.date_modified | date:"D M, Y. g: i A" }}</em>
+                </div>
             </div>
         </div>
 
-        <div class="border-2 mt-2 mb-2 p-2 font-serif lg:text-base text-[10px] bg-orange-200"> {{ blog.body }} </div>
+        <div class="border-2 mt-2 mb-2 p-2 font-serif lg:text-base text-[10px] bg-orange-200"> <p class="whitespace-break-spaces"> {{ blog.body }} </p> </div>
     </div>
 {% if request.user == blog.author %}
     <div class="bg-orange-300 w-full justify-between flex lg:px-4 py-2">
@@ -82,14 +90,14 @@
         </form>
         {% else %}
             <a href="{% url 'authapp:login' %}">
-                <div class="lg:rounded-lg rounded-sm bg-blue-600 hover:bg-blue-900 hover:border text-white p-2"> login to leave a comment </div>
+                <div class="lg:rounded-lg rounded-sm bg-blue-400 hover:bg-blue-600 text-white p-2"> login to leave a comment </div>
             </a>
         {% endif %}
     </div>
 
         <div> comments </div>
         
-    <div class="border p-2">
+    <div class="border rounded-sm p-2">
     {% if comments %}
         {% if comments.has_other_pages %}
             <div class="w-full text-left">
@@ -137,7 +145,7 @@
             </div>
         {% endfor %}
     {% else %}
-        <div class="text-6xl p-10 text-center font-mono bg-yellow-300 lg:rounded-lg rounded-sm">
+        <div class="text-6xl p-10 text-center font-mono bg-orange-200 lg:rounded-lg rounded-sm">
             <div class="lg:text-2xl text-sm text-center font-mono">
                 No comments yet.
             </div>

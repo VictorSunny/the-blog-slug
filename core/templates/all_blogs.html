@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} {{ page_title | upper }} {% endblock %}
+{% block title %} {% if cat %} {{cat.name | upper}} {% endif %} {{ page_title | upper }} {% endblock %}
 {% block page_div %}  {{ page_title }}  {% endblock %}
 {% block content %}
      
@@ -16,11 +16,15 @@
     </form>
     {% if all_blogs %}
         {% for blog in all_blogs %}
-        <div class="hover:bg-orange-400 hover:text-white border text-xs lg:text-xl border-black hover:border-white bg-orange-200 mx-2 flex lg:rounded-lg rounded-sm p-1 lg:p-2">
+        <div class="hover:bg-orange-400 hover:text-white border text-xs lg:text-xl border-black hover:border-white bg-orange-200 mx-2 flex lg:rounded-lg rounded-sm px-2 py-1">
             <a href="{% url 'core:blog' blog.id %}" class="size-full">
                     <div class="flex justify-between">
-                        <div class="w-7/8">{{ blog.headline | title }}</div>
-                        <div class="w-1/8 h-0">
+                        <div>
+                            <div>{{blog.headline | title }}</div>
+                            <div class="scale-75 origin-left">by: {{ blog.author.get_full_name }} -- category: {{ blog.category.name }}  </div>
+                            <div class="scale-75 origin-left"> {{ blog.date_created }} </div>
+                        </div>
+                                <div class="w-1/8 h-0">
                             {% if request.user in blog.bookmarkers.all %}
                                     <img src="{% static 'logos/bookmark_filled.svg' %}" class="ml-auto lg:scale-75 scale-50 origin-top-right">
                             {% else %}
@@ -28,10 +32,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="scale-75 origin-left">
-                        <em>by</em>: {{ blog.author.get_full_name | title }} - <em class="font-serif">{{blog.date_created}}</em> <br>
-                        <em>category</em>: {{ blog.category }}
-                    </div>
+
             </a>
         </div>
         {% endfor %}

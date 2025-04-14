@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} SIGNUP {% endblock %}
 {% block page_div %} SIGNUP {% endblock %}
 {% block utils %}{% endblock %}
@@ -6,7 +7,7 @@
     {% block navbar %}{% endblock %}
     <div class="py-6">
     <div class="mx-auto lg:w-2/3 rounded-4xl border-2 border-white">
-    <form method="post" class="lg:w-5/6 mx-auto text-xs lg:text-lg mt-auto p-4 font-mono border border-black bg-orange-200 lg:rounded-lg rounded-sm w-full">
+    <form method="post" class="lg:w-5/6 mx-auto text-xs lg:text-lg mt-auto p-4 font-mono border border-black bg-orange-200 lg:rounded-lg rounded-sm w-full contain-content">
         {% csrf_token %}
             <div class="py-2 mx-auto flex mb-3 w-full">
                 <label class="w-1/3 font-bold ml-3 text-left p-2">Username: </label>
@@ -31,6 +32,11 @@
             <div class="py-2 mx-auto flex mb-3">
                 <label class="w-1/3 font-bold ml-3 text-left p-2">Confirm Password:</label>
                 <div class="py-1 flex w-full pr-3">{{ form.password2 }}</div>
+            </div>
+            <div class="py-2 mx-auto flex mb-3">
+                <link rel="stylesheet" href="{% static 'flags/sprite.css' %}">
+                <label class="w-1/3 font-bold ml-3 text-left p-2">Nationality:</label>
+                <div class="py-1 flex w-full pr-3">{{ form.nationality }}</div>
             </div>
             <div class="py-2 mx-auto flex mb-3">
                 <label class="w-1/3 font-bold ml-3 text-left p-2">Bio:</label>

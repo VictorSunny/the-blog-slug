@@ -6,8 +6,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseForbidden
-from django.views import View
-import secrets
+import random
 from .models import OTPVerification
 from django.core.mail import send_mail
 from django.urls import reverse
@@ -104,6 +103,7 @@ def otp_verification_view(request, action):
 
     #retrieve session data with user information for otp verification against matching user account
     user_data = request.session.get('data')
+    print(user_data)
     if action == 'signup':
 
         #extract verified password from signup page to set user password
@@ -139,7 +139,7 @@ def otp_verification_view(request, action):
         if timezone.now() > verification_object.created_at + timedelta(minutes=3):
             verification_object.delete()
             print('expired otp deleted')
-            raise FileNotFoundError
+            return redirect(request.path)
         else:
             otp = verification_object.code
             print(otp)
@@ -147,7 +147,7 @@ def otp_verification_view(request, action):
     except:
 
         #create otp object if expired & deleted or does not exist
-        otp = secrets.token_hex(5)
+        otp = random.randint(10000, 99999)
         print(otp)
 
         #send otp to user email if in production

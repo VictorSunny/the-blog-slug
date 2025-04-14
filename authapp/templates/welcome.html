@@ -1,55 +1,48 @@
 {% extends 'base.html' %}
-{% block title %} Welcome {% endblock %}
-{% block page_div %}{% endblock %}
-{% block navbar %}{% endblock %}
-{% block utils %}{% endblock %}
+{% load static %}
+{% block title %}  WELCOME {% endblock %}
 
+{% block page_div %}
+    HELLO, SLUG!
+{% endblock %}
 {% block content %}
-    <div class="py-6">
-        <div class="lg:text-5xl font-bold text-2xl font-mono py-4 text-cyan-700 text-center"> A WORM WELCOME </div>
-        <div class="w-4/5 mx-auto font-mono space-y-4">
-            <p class="lg:text-2xl text-sm">
-                Worm Books is a site for readers to discover their next read,
-                as well as share their own recommendations, connecting with a community of readers
-                all around the world.
+
+    <div class="space-y-10 mx-2">
+        <div class="lg:text-4xl border bg-orange-200 p-2 text-xl font-bold text-center">
+            WELCOME TO THE BLOG SLUG{% if request.user.is_authenticated %}, {{ request.user.username | upper }}{% endif %}!
+        </div>
+
+        <div class="border-2 space-y-4 mt-2 mb-2 p-2 font-serif lg:text-xl text-xs bg-orange-200 w-full text-center">
+            <p class="text-left">
+                {% if request.user.is_authenticated %}   From us to you, {{ request.user.get_full_name }}.{% endif %}
             </p>
-            <p class="lg:text-2xl text-sm">
-                To ensure that our goal is achieved, there are a few ethical guidelines
-                to keep in mind while online to preserve the quality and integrity of our community,
-                as well as your own overall experience, as you are a vital building block of this community.
+
+            <p class="whitespace-pre-line w-full mx-auto">
+            The blog slug is a news and blog site here for you to keep updated with the latest breaking news from their location, as well as blogs from established and/or aspiring bloggers & journalists.
+            You can publish your very own blogs as a slug (writer), or simply read articles as an observer. Feel free to network with other members through interactions such as commenting, messaging, and following.
+
+            Get breaking news from your location on the latest news page, and check out amazing blogs from members of our community, Be sure to verify the integrity of blogs from users by clicking on blog's official source link that can be followed by clicking the blue labeled button after opening blog.
             </p>
-        </div>
 
-        <div class="lg:text-3xl font-bold text-xl font-mono py-4 text-cyan-700 text-center"> RULES </div>
-        <div class="w-4/5 mx-auto font-serif text-center">
-            <ul class="space-y-2 text-left lg:text-xl text-xs text-green-800">
-                <li>
-                    <strong>-Interact</strong> <p class="indent-10 font-mono">
-                        Find a book interesting? Leave a like and comment. Hopefully this encourages the next lucky reader to pick it up. ;)</p>
-                </li>
-                <li>
-                    <strong>-Keep it healthy</strong> <p class="indent-10 font-mono">
-                        Keep your comments friendly, and criticisms, if you must, creative. ;)</p>
-                </li>
-                <li>
-                    <strong>-Recommend</strong><em>(optional)</em> <p class="indent-10 font-mono">Don't shy away from sharing that book, or books. ;)</p>
-                </li>
-                <li>
-                    <strong>-Contribute</strong><em>(optional)</em> <p class="indent-10 font-mono">
-                        Some readers may post books with incomplete information. You can help out by filling in 
-                        the blanks in the <a class="text-blue-700"><em>contribute</em></a> section.
-                         ;)</p>
-                </li>
-                <li class="lg:text-2xl text-lg text-red-700">
-                    <strong>-Be cool</strong><em>(*please, **required)</em> <p class="indent-10 font-mono">Don't spam. ;)</p>
-                </li>
-            </ul>
-        </div>
+            <i class="text-center mx-auto"> FOR READERS </i>
 
-        <div class="lg:text-3xl font-bold text-xl font-mono py-10 mt-10 text-cyan-700 text-center"> 💛 HEAD ON AND START DISCOVERING 💛 </div>
-        <div class="mx-auto text-center p-4">
-        <a href="{% url 'core:home' %}" class="lg:text-xl text-sm p-4 bg-cyan-500 hover:bg-cyan-700 border rounded-sm lg:rounded-xl text-white border-white"> Discover </a>
-        </div>
+            <p class="whitespace-pre-line w-full mx-auto lg:text-lg">
+               Please keep discussions respectful as this will encourage everyone to engage open-mindedly and healthily. That's it.
+            </p>
 
+            <i class="text-center mx-auto"> FOR BLOGGERS </i>
+
+            <p class="whitespace-pre-line w-full mx-auto lg:text-lg">
+               When writing, be sure to report information without any bias or manipulation of narrative to avoid intentional and/or unintentional spread of propaganda.
+            </p>
+
+            <i class="text-center mx-auto"> THANKS FOR JOINING. HAVE A GOOD READ. </i><br>
+
+            <a href="{% url 'core:home' %}"><button class="lg:p-2 p-1 border-2 font-bold rounded-sm lg:rounded-xl hover:border-white"> see latest news </button></a>
+                or  
+            <a href="{% url 'core:all_blogs' %}"><button class="lg:p-2 p-1 border-2 font-bold rounded-sm lg:rounded-xl hover:border-white"> blogs by members </button></a>
+
+        </div>
     </div>
+
 {% endblock %}
