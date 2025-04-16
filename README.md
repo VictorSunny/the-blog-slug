@@ -43,6 +43,8 @@ To run this project, you will need to add the following environment variables to
 
 `DEFAULT_FROM_EMAIL`
 
+`MIN_ARTICLE_LENGTH`
+
 `WORLD_NEWS_API_KEY`
 
 `NEWS_REFRESH_INTERVAL`
