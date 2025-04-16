@@ -1,10 +1,30 @@
-
 # THE BLOG SLUG
 
-A website for established and aspiring bloggers/journalists to publish their articles on webpages that they can share online for others to see.
+A website for established and aspiring bloggers/journalists to publish their articles, catch up on the latest headlines, and interact with people of interest by following, messaging, and commenting.
 
-The blog slug further supports commenting, as well messaging, allowing users to interact more directly.
+## Features
 
+- User authentication
+
+- OTP verification for signup and password recovery
+
+- User details update
+
+- User following
+
+- User messaging
+
+- Chat archiving
+
+- News updates from user's country
+
+- Blog posting
+
+- Bookmarking and commenting on posts
+
+- Deletion of comment and posts by owners
+
+- Responsive design for desktop and mobile
 
 
 ## Environment Variables
@@ -15,21 +35,44 @@ To run this project, you will need to add the following environment variables to
 
 `DEBUG`
 
+`EMAIL_HOST`
+
+`EMAIL_HOST_USER`
+
+`EMAIL_HOST_PASSWORD`
+
+`DEFAULT_FROM_EMAIL`
+
+`WORLD_NEWS_API_KEY`
+
+`NEWS_REFRESH_INTERVAL`
+
 
 ## Installation
 
-- Open a terminal and create a directory where this repo will be cloned using git
+- Open a terminal and clone this repo to your desired folder
 
-- Run `"pip install django beautifulsoup4 python-decouple"`
+- Run `"pip install -r requirements.txt"`
 
-- Create your .env file and set the necessary environment variable for SECRET_KEY and DEBUG
+- Create your .env file and set the necessary environment variables
 
-- Lastly...
+- Inside the project folder, run "python manage.py makemigrations" followed by "python manage.py migrate" to initialize your database
+
+- Lastly, run...
 
 ```bash
   python manage.py runserver
 ```
-    
+
+## Tests
+
+
+Before carrying out tests, set DEBUG to True in your .env file, open the trendcatcher.py file inside the core app and unhash the "if" code block from line 22 to line 25.
+
+This will eliminate the need for an api key to use the worldnewsapi, and you will be served a static json file containing news articles to be displayed on the homepage.
+
+To use worldnewsapi to get realtime news, signup, and add your api key (WORLD_NEWS_API_KEY) variable to your .env and connect to the internet.
+
 ## Authors
 
 - [Github@victorsunny](https://www.github.com/victorsunny/)
@@ -39,24 +82,14 @@ To run this project, you will need to add the following environment variables to
 ## 🚀 About Me
 Hello there, Victor here.
 
-I'm a backend web developer, and i believe every problem that can be fixed, will be fixed if given enough effort, dedication, and critical thinking, skills all of which are in possession.
+I am a backend developer, and i believe every problem that can be fixed, will be fixed if given enough effort, dedication, and critical thinking, skills all of which are in my possession.
 
-I am highly proficient in backend/logical web/app developement using Python and it's related technologies, readily adopting and adapting to new and required technologies.
-
-
-## Screenshots
-
-![Screenshot (73)](https://github.com/user-attachments/assets/5b0f503a-6841-4b74-8ccc-97356e2ebdfa)
-![Screenshot (72)](https://github.com/user-attachments/assets/bb9f90f8-7d41-4ce4-9f6c-e1ee106294ed)
-![Screenshot (70)](https://github.com/user-attachments/assets/fe091d63-d227-4cca-8d8c-4460b0d31ac8)
-![Screenshot (69)](https://github.com/user-attachments/assets/d3b78615-dfff-4ef2-826c-419e4e56d7c0)
-![Screenshot (79)](https://github.com/user-attachments/assets/9c989ccf-047e-4777-84bf-b3699b6b6b91)
-![Screenshot (78)](https://github.com/user-attachments/assets/f37c2dd8-01cd-448e-a7b8-537563b5740d)
-![Screenshot (76)](https://github.com/user-attachments/assets/3dbe7add-fc5c-4737-a3c5-e97a890be9ee)
-![Screenshot (75)](https://github.com/user-attachments/assets/e87bd565-54f3-4d02-a0f0-4b3856b1d227)
-![Screenshot (74)](https://github.com/user-attachments/assets/9137c18f-fde0-4906-a587-b336e6362b2d)
-![Screenshot (71)](https://github.com/user-attachments/assets/ece1848c-eeb4-4d4e-95b7-2b658d0a77e1)
-![Screenshot (80)](https://github.com/user-attachments/assets/19d30e68-1f4b-419c-8e59-71afa66e9271)
+I am highly proficient in backend web/app developement using Python and it's related technologies, readily adopting and adapting to new, required technologies, meeting up to industry standards, quality, and reliability.
 
 
+## Tech Stack
+
+**Client:** HTML, TailwindCSS
+
+**Server:** Python, Django, Django rest framework, Sqlite, Whitenoise.
 
