@@ -32,7 +32,7 @@ def datafetcher(request):
     yesterday = datetime.strftime(yday, "%Y-%m-%d")
 
     # file location string for local news data for anonymous user
-    local_json_file = "core/data/anonymous_user_news/anon_news_data.json"
+    local_json_file = BASE_DIR / "core/data/anonymous_user_news/anon_news_data.json"
 
     # validity period in hours before news dictionary is updated through api
     hours_before_refresh = config("NEWS_REFRESH_INTERVAL", cast= int)
