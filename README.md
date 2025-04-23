@@ -52,7 +52,7 @@ To run this project, you will need to add the following environment variables to
 
 ## Installation
 
-- Open a terminal and clone this repo to your desired folder
+- Open a terminal, clone this repo to your desired folder, then create your virtual environment
 
 - Run `"pip install -r requirements.txt"`
 
