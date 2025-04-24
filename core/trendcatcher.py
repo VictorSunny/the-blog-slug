@@ -112,7 +112,10 @@ def datafetcher(request):
             print("anon user")
             with open(local_json_file, "w", encoding= "utf-8") as news_json:
                 json.dump(news_data, news_json, ensure_ascii= False)
-            return json.load(news_json)
+
+            with open(local_json_file, "r", encoding= "utf-8") as news:
+                news_json = json.load(news)
+            return news_json
 
 
 
